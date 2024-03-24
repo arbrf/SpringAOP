@@ -1,6 +1,9 @@
 package com.in28minutes.LEarn.SpringAOPexample.logginaspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
@@ -12,9 +15,27 @@ import org.springframework.context.annotation.Configuration;
 public class LoggingAspect {
 	private Logger logger=LoggerFactory.getLogger(getClass());
 	
-	@Before("execution(* com.in28minutes.LEarn.SpringAOPexample.*.*.*(..))")
-	public void logMethodCall(JoinPoint joinPoint) {
+	@Before("com.in28minutes.LEarn.SpringAOPexample.logginaspect.CommonPointCut.allPackageConfigUsingBean()")
+	public void logMethodCallBeforeExecution(JoinPoint joinPoint) {
 		logger.info("Before Aspect{} Method called is ----{}",joinPoint,joinPoint.getArgs());
 	}
-
+	
+	@After("com.in28minutes.LEarn.SpringAOPexample.logginaspect.CommonPointCut.businessPackageConfig()")
+	public void logMethodCallAfterExecution(JoinPoint joinPoint) {
+		logger.info("After Aspect{} has executed",joinPoint);
+	}
+	@AfterThrowing(
+			pointcut="com.in28minutes.LEarn.SpringAOPexample.logginaspect.CommonPointCut.businessDataPackageConfig()",
+			throwing = "exception"
+			)
+	public void logMethodCallAfterExeptionTrown(JoinPoint joinPoint,Exception exception) {
+		logger.info("After Throwing Exception Aspect{} has executed exception is  {}",joinPoint,exception);
+	}
+	@AfterReturning(
+			pointcut="com.in28minutes.LEarn.SpringAOPexample.logginaspect.CommonPointCut.dataPackageConfig()",
+			returning  = "exception"
+			)
+	public void logMethodCallAfterReturning(JoinPoint joinPoint,Object result) {
+		logger.info("After returning Aspect{} has executed result  is  {}",joinPoint,result);
+	}
 }

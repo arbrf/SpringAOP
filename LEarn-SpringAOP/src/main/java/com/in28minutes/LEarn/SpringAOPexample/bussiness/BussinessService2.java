@@ -9,23 +9,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.in28minutes.LEarn.SpringAOPexample.DataSErvice.DataService;
-import com.in28minutes.LEarn.SpringAOPexample.annotation.TrackTime;
+import com.in28minutes.LEarn.SpringAOPexample.DataSErvice.DataService2;
 @Service
-public class BussinessService1 {
+public class BussinessService2 {
 	
-private DataService dataservice1;
+private DataService2 dataservice2;
 
 			@Autowired
-			public BussinessService1(DataService dataservice1) {
+			public BussinessService2(DataService2 dataservice2) {
 	super();
-	this.dataservice1 = dataservice1;
+	this.dataservice2 = dataservice2;
 }
 
-			@TrackTime
-			public int calculateMax() {
-			int [] data=dataservice1.retrieveData();
+
+			public int calculateMin() throws InterruptedException {
+			int [] data=dataservice2.retrieveData();
 //			throw new RuntimeErrorException(null, "Something went wromg");
-			return Arrays.stream(data).max().orElse(0);
+			return Arrays.stream(data).min().orElse(0);
 			
 			}
 }
